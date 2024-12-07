@@ -1,5 +1,5 @@
 {
-  "name": "koa2-weibo-code",
+  "name": "koa-weibo",
   "version": "0.1.0",
   "private": true,
   "scripts": {

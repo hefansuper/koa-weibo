@@ -25,6 +25,7 @@ if (isProd) {
     redirect: "/error",
   };
 }
+// 错误处理 通过koa-onerror中间件
 onerror(app, onerrorConf);
 
 // middlewares 中间件的集合。
@@ -36,9 +37,11 @@ app.use(
 );
 // json中间件 -传参直接是json格式
 app.use(json());
+// 标准的日志处理 打印日志
 app.use(logger());
+// 静态中间件。
 app.use(require("koa-static")(__dirname + "/public"));
-
+// 模板引擎
 app.use(
   views(__dirname + "/views", {
     extension: "ejs",
