@@ -1,0 +1,60 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# IDE and editor settings
+.idea/
+.vscode/
+*.iml
+
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Frontend-specific
+/.next/      # Next.js
+/.nuxt/      # Nuxt.js
+/.svelte-kit # SvelteKit
+/.parcel-cache/
+/coverage/   # Code coverage reports
+
+# Static type-checking
+tsconfig.tsbuildinfo # TypeScript incremental builds
+
+# Linter outputs
+.eslintcache
+
+# Service workers
+*.cache
+
+# Images
+*.psd
+*.xcf
