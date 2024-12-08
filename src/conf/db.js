@@ -1,6 +1,6 @@
 /**
  * @description 存储配置
- * @author 双越老师
+ * @author stephen
  */
 
 const { isProd } = require('../utils/env')
@@ -13,7 +13,7 @@ let REDIS_CONF = {
 let MYSQL_CONF = {
     host: 'localhost',
     user: 'root',
-    password: 'Mysql_2018',
+    password: 'hf123456',
     port: '3306',
     database: 'koa2_weibo_db'
 }

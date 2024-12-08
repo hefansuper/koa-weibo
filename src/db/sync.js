@@ -1,6 +1,6 @@
 /**
  * @description sequelize 同步数据库
- * @author 双越老师
+ * @author stephen
  */
 
 const seq = require('./seq')

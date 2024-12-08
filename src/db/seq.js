@@ -10,14 +10,15 @@ const { isProd, isTest } = require('../utils/env')
 const { host, user, password, database } = MYSQL_CONF
 const conf = {
     host,
-    dialect: 'mysql'
+    // 方言 指定使用的数据库类型
+    dialect: 'mysql',
 }
 
 if (isTest) {
     conf.logging = () => {}
 }
 
-// 线上环境，使用连接池
+// 线上环境，使用连接池, 来解决性能问题。
 if (isProd) {
     conf.pool = {
         max: 5, // 连接池中最大的连接数量
