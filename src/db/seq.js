@@ -27,6 +27,7 @@ if (isProd) {
     }
 }
 
+// Sequelize的实例，后面每个地方用都导入这个。
 const seq = new Sequelize(database, user, password, conf)
 
 module.exports = seq
