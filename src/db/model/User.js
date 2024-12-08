@@ -1,6 +1,6 @@
 /**
  * @description 用户数据模型
- * @author 双越老师
+ * @author STEPHEN
  */
 
 const seq = require('../seq')

@@ -1,6 +1,6 @@
 /**
  * @description 常量集合
- * @author 双越老师
+ * @author STEPHEN
  */
 
 module.exports = {

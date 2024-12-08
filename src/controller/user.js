@@ -1,6 +1,6 @@
 /**
  * @description user controller
- * @author 双越老师
+ * @author STEPHEN
  */
 
 const { getUserInfo, createUser, deleteUser } = require('../services/user')
