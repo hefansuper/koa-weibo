@@ -66,6 +66,7 @@ app.use(
 )
 
 // routes
+// allowedMethods中间件   会在路由注册完成后，自动注册一个中间件，用来处理非定义的请求方式的请求然后返回对应的4xx错误。
 app.use(index.routes(), index.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
