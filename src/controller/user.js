@@ -10,7 +10,14 @@ const login = () => {}
 // 注册
 const register = () => {}
 
+/**
+ *
+ * @param {string} userName 用户名
+ */
+const isExist = (userName) => {}
+
 module.exports = {
     login,
     register,
+    isExist,
 }
