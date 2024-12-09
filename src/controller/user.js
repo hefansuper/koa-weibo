@@ -4,7 +4,9 @@
  * @author STEPHEN
  */
 
-const { getUserInfo} = require('../services/user')
+const { getUserInfo } = require('../services/user')
+const { SuccessModel, ErrorModel } = require('../model/ResModel')
+const { registerUserNameNotExistInfo} = require('../model/ErrorInfo')
 
 
 // 登录
@@ -25,8 +27,15 @@ const register = ({ userName, password, gender }) => {
  *
  * @param {string} userName 用户名
  */
-const isExist = (userName) => {
-    return getUserInfo(userName)
+const isExist = async (userName) => {
+    const userInfo = await getUserInfo(userName)
+  
+    if (userInfo) {
+        return new SuccessModel(userInfo)
+    } else {
+        // { errno: 10003, message: '用户名未存在' }
+        return new ErrorModel(registerUserNameNotExistInfo)
+    }
 }
 
 module.exports = {
