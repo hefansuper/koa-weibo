@@ -26,7 +26,7 @@ const register = ({ userName, password, gender }) => {
  * @param {string} userName 用户名
  */
 const isExist = (userName) => {
-    getUserInfo(userName)
+    return getUserInfo(userName)
 }
 
 module.exports = {

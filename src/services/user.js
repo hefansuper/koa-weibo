@@ -31,6 +31,10 @@ const getUserInfo = async (userName, password) => {
     // 查询到了就需要取值dataValues
 
     console.log(result)
+    if (!result) {
+        return null
+    }
+    return result.dataValues
 }
 
 
