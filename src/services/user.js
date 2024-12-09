@@ -5,6 +5,7 @@
 
 
 const User = require('../db/model/User')
+const { formatUser} = require('./_format')
 
 /**
  * 获取用户的信息
@@ -30,11 +31,11 @@ const getUserInfo = async (userName, password) => {
     // 没有查询到就是null
     // 查询到了就需要取值dataValues
 
-    console.log(result)
     if (!result) {
         return null
     }
-    return result.dataValues
+
+    return formatUser(result.dataValues)
 }
 
 
