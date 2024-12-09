@@ -5,6 +5,8 @@
 
 const router = require('koa-router')()
 
+const { register, isExist } = require('../../controller/user')
+
  
 // 构建user的前缀
 router.prefix('/api/user')
@@ -13,11 +15,7 @@ router.prefix('/api/user')
 router.post('/register', async (ctx, next) => {
     // post参数从request.body中获取
     const { userName, password, gender } = ctx.request.body
-    ctx.body = {
-        userName,
-        password,
-        gender,
-    }
+    ctx.body = register({ userName, password, gender })
 })
 
 
@@ -33,7 +31,7 @@ router.post('/login', async (ctx, next) => {
 // 判断用户名是否存在
 router.post('/isExist', async (ctx, next) => { 
     const { userName, password } = ctx.request.body
-    ctx.body = isExist(userName);
+    ctx.body = isExist(userName)
 })
 
 

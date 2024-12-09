@@ -4,17 +4,30 @@
  * @author STEPHEN
  */
 
+const { getUserInfo} = require('../services/user')
+
+
 // 登录
 const login = () => {}
 
 // 注册
-const register = () => {}
+/**
+ * 注册
+ * @param {string} userName 用户名
+ * @param {string} password 密码
+ * @param {number} gender 性别（1 男，2 女，3 保密）
+ */
+const register = ({ userName, password, gender }) => {
+    console.log(userName, password, gender)
+}
 
 /**
  *
  * @param {string} userName 用户名
  */
-const isExist = (userName) => {}
+const isExist = (userName) => {
+    getUserInfo(userName)
+}
 
 module.exports = {
     login,
