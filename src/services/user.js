@@ -4,8 +4,10 @@
  */
 
 
-// module.exports = {
-//     getUserInfo,
-//     createUser,
-//     deleteUser
-// }
+// 获取用户的信息
+const getUserInfo = () => { }
+
+
+module.exports = {
+    getUserInfo,
+}
