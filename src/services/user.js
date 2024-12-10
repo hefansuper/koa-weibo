@@ -7,6 +7,7 @@
 const User = require('../db/model/User')
 const { formatUser} = require('./_format')
 
+
 /**
  * 获取用户的信息
  * @param {*} userName
@@ -39,6 +40,29 @@ const getUserInfo = async (userName, password) => {
 }
 
 
+/**
+ * 创建用户 service中的命名需要复合当前的业务场景。
+ * @param {string} userName 用户名
+ * @param {string} password 密码
+ * @param {number} gender 性别
+ * @param {string} nickName 昵称
+ */
+async function createUser({ userName, password, gender = 3, nickName }) {
+
+
+    // 插入到数据库中。
+    const result = await User.create({
+        userName,
+        password,
+        gender: 3,
+        nickName: nickName ? nickName : userName,
+    })
+  
+    return result.dataValues
+}
+
+
 module.exports = {
     getUserInfo,
+    createUser,
 }
