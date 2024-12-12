@@ -10,6 +10,7 @@ const {
     registerUserNameNotExistInfo,
     registerUserNameExistInfo,
 } = require('../model/ErrorInfo')
+const doCrypto = require('../utils/crypt')
 
 // 登录
 const login = () => {}
@@ -33,7 +34,7 @@ const register = async ({ userName, password, gender }) => {
     // 调用services中的方法
 
     try {
-        await createUser({ userName, password, gender })
+        await createUser({ userName, password: doCrypto(password), gender })
         return new SuccessModel()
     } catch (ex) {
         console.error(ex.message, ex.stack)
