@@ -8,15 +8,36 @@
 const router = require('koa-router')()
 
 
+/**
+ * 获取登录信息
+ * @param {Object} ctx ctx
+ */
+function getLoginInfo(ctx) {
+    let data = {
+        isLogin: false // 默认未登录
+    }
+
+    const userInfo = ctx.session.userInfo
+    if (userInfo) {
+        data = {
+            isLogin: true,
+            userName: userInfo.userName
+        }
+    }
+
+    return data
+}
+
+
 // 定义login路由
 router.get('/login', async (ctx, next) => {
     // 这个render就是render的view/login.ejs
-    await ctx.render('login', {})
+    await ctx.render('login', getLoginInfo(ctx))
 })
 
 router.get('/register', async (ctx, next) => {
     // 这个render就是render的view/register.ejs
-    await ctx.render('register', {})
+    await ctx.render('register', getLoginInfo(ctx))
 })
 
 module.exports = router
