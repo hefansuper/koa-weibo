@@ -58,3 +58,6 @@ tsconfig.tsbuildinfo # TypeScript incremental builds
 # Images
 *.psd
 *.xcf
+
+
+dump.rdp
