@@ -7,13 +7,33 @@
 const { getUserInfo, createUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const {
+    loginFailInfo,
     registerUserNameNotExistInfo,
     registerUserNameExistInfo,
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/crypt')
 
-// 登录
-const login = () => {}
+/**
+ * 登录
+ * @param {Object} ctx koa2
+ * @param {string} userName
+ * @param {string} password
+ */
+const login = async (ctx, userName, password) => {
+    // 1: 姓名+密码 查库，没有就报错。
+    const userInfo = await getUserInfo(userName, doCrypto(password))
+      
+    if (!userInfo) {
+        return new ErrorModel(loginFailInfo)
+    }
+
+    // 2：如果有, 就将用户的信息存放在session中
+    if (!ctx.session.userInfo) {
+        ctx.session.userInfo = userInfo
+    }
+    return new SuccessModel()
+}
+
 
 // 注册
 /**

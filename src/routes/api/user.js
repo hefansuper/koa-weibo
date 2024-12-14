@@ -4,7 +4,7 @@
  */
 
 const router = require('koa-router')()
-const { register, isExist } = require('../../controller/user')
+const { register, isExist, login } = require('../../controller/user')
 const userValidate = require('../../validator/user')
 const {genValidator} = require('../../middlewares/validator')
 
@@ -22,11 +22,12 @@ router.post('/register', genValidator(userValidate), async (ctx, next) => {
 // 登录
 router.post('/login', async (ctx, next) => {
     const { userName, password } = ctx.request.body
-    ctx.body = {
-        userName,
-        password,
-    }
+
+    // 调用controller中的方法，需要将ctx也穿进去，已经需要在ctx中写入session信息。
+    ctx.body = await login(ctx, userName, password)
 })
+
+
 
 // 判断用户名是否存在
 router.post('/isExist', async (ctx, next) => { 

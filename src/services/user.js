@@ -28,6 +28,7 @@ const getUserInfo = async (userName, password) => {
         attributes: ['id', 'nickName', 'nickName', 'gender', 'picture', 'city'],
         where: whereOpt,
     })
+    console.log('getUserInfo', result)
 
     // 没有查询到就是null
     // 查询到了就需要取值dataValues
