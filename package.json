@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon --inspect=9229 bin/www",
     "prd": "cross-env NODE_ENV=production pm2 start bin/www",
-    "lint": "eslint --ext .js ./src",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write .",
     "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors"
   },
   "dependencies": {
@@ -30,10 +32,13 @@
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "cross-env": "^5.2.0",
-    "eslint": "^6.3.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "jest": "^24.9.0",
     "nodemon": "^1.19.1",
     "pre-commit": "^1.2.2",
+    "prettier": "^3.4.2",
     "supertest": "^4.0.2"
   },
   "pre-commit": [

@@ -2,17 +2,17 @@
  * @Author: stephenHe
  * @Date: 2024-12-12 22:24:40
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-15 18:57:41
+ * @LastEditTime: 2024-12-15 19:15:06
  * @Description: user API 路由
  * @FilePath: /weibo-koa/src/routes/api/user.js
  */
 
 const router = require('koa-router')()
 const {
-    register,
-    isExist,
-    login,
-    deleteCurUser,
+  register,
+  isExist,
+  login,
+  deleteCurUser,
 } = require('../../controller/user')
 const userValidate = require('../../validator/user')
 const { genValidator } = require('../../middlewares/validator')
@@ -24,32 +24,31 @@ router.prefix('/api/user')
 
 // 注册路由
 router.post('/register', genValidator(userValidate), async (ctx, next) => {
-    // post参数从request.body中获取
-    const { userName, password, gender } = ctx.request.body
-    ctx.body = register({ userName, password, gender })
+  // post参数从request.body中获取
+  const { userName, password, gender } = ctx.request.body
+  ctx.body = register({ userName, password, gender })
 })
 
 // 登录
 router.post('/login', async (ctx, next) => {
-    const { userName, password } = ctx.request.body
+  const { userName, password } = ctx.request.body
 
-    // 调用controller中的方法，需要将ctx也穿进去，已经需要在ctx中写入session信息。
-    ctx.body = await login(ctx, userName, password)
+  // 调用controller中的方法，需要将ctx也穿进去，已经需要在ctx中写入session信息。
+  ctx.body = await login(ctx, userName, password)
 })
 
 // 判断用户名是否存在
 router.post('/isExist', async (ctx, next) => {
-    const { userName, password } = ctx.request.body
-    ctx.body = await isExist(userName)
+  const { userName, password } = ctx.request.body
+  ctx.body = await isExist(userName)
 })
 
 // 删除当前登录的账号，并且仅仅是在进行单元测试的时候
 router.post('/delete', loginCheck, async (ctx, next) => {
-    if (isTest) {
-        const { userName } = ctx.request.body
-        ctx.body = await deleteCurUser(userName)
-    }
- 
+  if (isTest) {
+    const { userName } = ctx.request.body
+    ctx.body = await deleteCurUser(userName)
+  }
 })
 
 module.exports = router

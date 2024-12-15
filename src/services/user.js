@@ -16,30 +16,30 @@ const { formatUser } = require('./_format')
  * @param {*} password
  */
 const getUserInfo = async (userName, password) => {
-    // 通过userName和password来查询，如果没查询到就返回null，查询到了就返回对应的值。
-    const whereOpt = {
-        userName,
-    }
+  // 通过userName和password来查询，如果没查询到就返回null，查询到了就返回对应的值。
+  const whereOpt = {
+    userName,
+  }
 
-    if (password) {
-        Object.assign(whereOpt, { password })
-    }
+  if (password) {
+    Object.assign(whereOpt, { password })
+  }
 
-    // 查询是通过模型来查询的。
-    const result = await User.findOne({
-        attributes: ['id', 'nickName', 'nickName', 'gender', 'picture', 'city'],
-        where: whereOpt,
-    })
-    console.log('getUserInfo', result)
+  // 查询是通过模型来查询的。
+  const result = await User.findOne({
+    attributes: ['id', 'nickName', 'nickName', 'gender', 'picture', 'city'],
+    where: whereOpt,
+  })
+  console.log('getUserInfo', result)
 
-    // 没有查询到就是null
-    // 查询到了就需要取值dataValues
+  // 没有查询到就是null
+  // 查询到了就需要取值dataValues
 
-    if (!result) {
-        return null
-    }
+  if (!result) {
+    return null
+  }
 
-    return formatUser(result.dataValues)
+  return formatUser(result.dataValues)
 }
 
 /**
@@ -50,34 +50,34 @@ const getUserInfo = async (userName, password) => {
  * @param {string} nickName 昵称
  */
 async function createUser({ userName, password, gender = 3, nickName }) {
-    // 插入到数据库中。
-    const result = await User.create({
-        userName,
-        password,
-        gender: 3,
-        nickName: nickName ? nickName : userName,
-    })
+  // 插入到数据库中。
+  const result = await User.create({
+    userName,
+    password,
+    gender: 3,
+    nickName: nickName ? nickName : userName,
+  })
 
-    return result.dataValues
+  return result.dataValues
 }
 
 /**
  *  通过userName来删除
- * @param {string} userName 
+ * @param {string} userName
  */
 const deleteUser = async (userName) => {
-    // 返回的是受影响的行数
-    const result = await User.destroy({
-        where: { userName },
-    })
-    console.log(result, 'result')
-  
-    // result 删除的行数
-    return result > 0
+  // 返回的是受影响的行数
+  const result = await User.destroy({
+    where: { userName },
+  })
+  console.log(result, 'result')
+
+  // result 删除的行数
+  return result > 0
 }
 
 module.exports = {
-    getUserInfo,
-    createUser,
-    deleteUser,
+  getUserInfo,
+  createUser,
+  deleteUser,
 }
