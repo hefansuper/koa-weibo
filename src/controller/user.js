@@ -1,13 +1,18 @@
-/**
- * @description user controller 业务逻辑的处理+返回格式
+/*
+ * @Author: stephenHe
+ * @Date: 2024-12-04 23:04:19
+ * @LastEditors: stephenHe
+ * @LastEditTime: 2024-12-15 18:56:19
+ * @Description: user controller 业务逻辑的处理+返回格式
  * 建议是每个api对应的写一个controller的函数，这样的好处是分层全部都规矩化，流程化。
- * @author STEPHEN
+ * @FilePath: /weibo-koa/src/controller/user.js
  */
 
-const { getUserInfo, createUser } = require('../services/user')
+const { getUserInfo, createUser, deleteUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const {
     loginFailInfo,
+    deleteUserFailInfo,
     registerUserNameNotExistInfo,
     registerUserNameExistInfo,
 } = require('../model/ErrorInfo')
@@ -76,8 +81,24 @@ const isExist = async (userName) => {
     }
 }
 
+/**
+ * 删除用户 
+ * @param {*} userName 
+ */
+const deleteCurUser = async (userName) => {
+    const  result =  await deleteUser(userName)
+  
+    if (result) {
+        // 成功
+        return new SuccessModel()
+    }
+    // 失败
+    return new ErrorModel(deleteUserFailInfo)
+}
+
 module.exports = {
     login,
     register,
     isExist,
+    deleteCurUser,
 }

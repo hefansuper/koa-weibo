@@ -1,12 +1,14 @@
-/**
- * @description user service 数据处理+格式化
- * @author STEPHEN
+/*
+ * @Author: stephenHe
+ * @Date: 2024-12-04 23:04:19
+ * @LastEditors: stephenHe
+ * @LastEditTime: 2024-12-15 18:56:01
+ * @Description: user service 数据处理+格式化
+ * @FilePath: /weibo-koa/src/services/user.js
  */
 
-
 const User = require('../db/model/User')
-const { formatUser} = require('./_format')
-
+const { formatUser } = require('./_format')
 
 /**
  * 获取用户的信息
@@ -40,7 +42,6 @@ const getUserInfo = async (userName, password) => {
     return formatUser(result.dataValues)
 }
 
-
 /**
  * 创建用户 service中的命名需要复合当前的业务场景。
  * @param {string} userName 用户名
@@ -49,8 +50,6 @@ const getUserInfo = async (userName, password) => {
  * @param {string} nickName 昵称
  */
 async function createUser({ userName, password, gender = 3, nickName }) {
-
-
     // 插入到数据库中。
     const result = await User.create({
         userName,
@@ -58,12 +57,27 @@ async function createUser({ userName, password, gender = 3, nickName }) {
         gender: 3,
         nickName: nickName ? nickName : userName,
     })
-  
+
     return result.dataValues
 }
 
+/**
+ *  通过userName来删除
+ * @param {string} userName 
+ */
+const deleteUser = async (userName) => {
+    // 返回的是受影响的行数
+    const result = await User.destroy({
+        where: { userName },
+    })
+    console.log(result, 'result')
+  
+    // result 删除的行数
+    return result > 0
+}
 
 module.exports = {
     getUserInfo,
     createUser,
+    deleteUser,
 }
