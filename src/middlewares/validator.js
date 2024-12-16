@@ -1,6 +1,10 @@
-/**
- * @description json schema 验证中间件
- * @author STEPHEN
+/*
+ * @Author: stephenHe
+ * @Date: 2024-12-04 20:12:29
+ * @LastEditors: stephenHe
+ * @LastEditTime: 2024-12-16 09:28:58
+ * @Description:json schema 验证中间件
+ * @FilePath: /weibo-koa/src/middlewares/validator.js
  */
 
 const { ErrorModel } = require('../model/ResModel')
