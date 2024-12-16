@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-12 22:24:40
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-15 19:15:06
+ * @LastEditTime: 2024-12-16 21:44:22
  * @Description: user API 路由
  * @FilePath: /weibo-koa/src/routes/api/user.js
  */
@@ -26,7 +26,7 @@ router.prefix('/api/user')
 router.post('/register', genValidator(userValidate), async (ctx, next) => {
   // post参数从request.body中获取
   const { userName, password, gender } = ctx.request.body
-  ctx.body = register({ userName, password, gender })
+  ctx.body = await register({ userName, password, gender })
 })
 
 // 登录

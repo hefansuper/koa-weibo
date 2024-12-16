@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-15 18:56:01
+ * @LastEditTime: 2024-12-16 21:56:27
  * @Description: user service 数据处理+格式化
  * @FilePath: /weibo-koa/src/services/user.js
  */
@@ -30,7 +30,6 @@ const getUserInfo = async (userName, password) => {
     attributes: ['id', 'nickName', 'nickName', 'gender', 'picture', 'city'],
     where: whereOpt,
   })
-  console.log('getUserInfo', result)
 
   // 没有查询到就是null
   // 查询到了就需要取值dataValues
@@ -70,7 +69,6 @@ const deleteUser = async (userName) => {
   const result = await User.destroy({
     where: { userName },
   })
-  console.log(result, 'result')
 
   // result 删除的行数
   return result > 0
