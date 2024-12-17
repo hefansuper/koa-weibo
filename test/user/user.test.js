@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-16 21:04:08
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-17 09:39:56
+ * @LastEditTime: 2024-12-17 10:45:50
  * @Description: 用户部分的单元测试
  * @FilePath: /weibo-koa/test/user/user.test.js
  */
@@ -59,9 +59,48 @@ describe('user测试', () => {
     expect(response.body.errno).toBe(10003)
   })
 
-  // 5: json schema 检测
-  // 6: 正常的登录，应该成功
-  // 7: 不正常的登录，应该失败
-  // 8：删除用户，应该成功
-  // 9：再次查询用户，应该不存在
+  // 5: register--json schema 检测
+  test('json schema 检测，非法的格式，注册应该失败', async () => {
+    const response = await server.post('/api/user/register').send({
+      userName: '123', // 用户名不是字母（或下划线）开头
+      password: 'a', // 最小长度不是 3
+      // nickName: ''
+      gender: 'mail', // 不是数字
+    })
+    expect(response.status).toBe(200)
+    expect(response.body.errno).toBe(10009)
+  })
+
+  // 6: login--正常的登录，应该成功
+  test('正常的登录，应该成功', async () => {
+    const response = await server.post('/api/user/login').send(testUser)
+    expect(response.status).toBe(200)
+    expect(response.body.errno).toBe(0)
+
+    // 获取 cookie,为了让下面的删除可以用
+    COOKIE = response.headers['set-cookie'].join(';')
+  })
+
+  // 7: login--不正常的登录，应该失败
+  test('不正常的登录，应该失败', async () => {
+    const response = await server.post('/api/user/login').send(testUserNew)
+    expect(response.status).toBe(200)
+    expect(response.body.errno).toBe(10004)
+  })
+
+  // // 8：delete --删除登录的用户，自己删除自己，应该成功
+  // test('删除前面登录的用户，应该成功', async () => {
+  //   const response = await server.post('/api/user/delete').set('cookie', COOKIE)
+  //   expect(response.status).toBe(200)
+  //   expect(response.body.errno).toBe(0)
+  // })
+
+  // // 9：再次查询用户，应该不存在
+  // test('再次查询用户，应该不存在', async () => {
+  //   const response = await server.post('/api/user/isExist').send(testUser)
+  //   expect(response.status).toBe(200)
+
+  //   console.log(response.body, 'response.body')
+  //   expect(response.body.errno).toBe(10003)
+  // })
 })
