@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-16 21:24:44
+ * @LastEditTime: 2024-12-17 09:35:34
  * @Description: user controller 业务逻辑的处理+返回格式
  * 建议是每个api对应的写一个controller的函数，这样的好处是分层全部都规矩化，流程化。
  * @FilePath: /weibo-koa/src/controller/user.js
@@ -12,6 +12,7 @@ const { getUserInfo, createUser, deleteUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const {
   loginFailInfo,
+  registerFailInfo,
   deleteUserFailInfo,
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
