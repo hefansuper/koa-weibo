@@ -1,3 +1,11 @@
+<!--
+ * @Author: stephenHe
+ * @Date: 2024-12-04 23:04:19
+ * @LastEditors: stephenHe
+ * @LastEditTime: 2024-12-19 20:04:13
+ * @Description: 
+ * @FilePath: /weibo-koa/src/views/layout/header.ejs
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><%= title%></title>
 
-    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
 
     <% if (locals.list) { %>
@@ -28,7 +36,7 @@
 
     <% if (locals.isNav) { %>
     <%# 有导航%>
-    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <% } %>
 
     <!-- jquery 要首先引入-->
