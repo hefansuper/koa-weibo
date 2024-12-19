@@ -2,13 +2,14 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-19 19:55:22
+ * @LastEditTime: 2024-12-19 20:16:19
  * @Description: 这个页面路由的目的就是render出对应的前端ejs页面，可以认为就是一个get请求的ssr接口。
  *  主要的目的就是返回对应的ejs页面。
  * @FilePath: /weibo-koa/src/routes/view/user.js
  */
 
 const router = require('koa-router')()
+const { loginRedirect } = require('../../middlewares/loginChecks')
 
 /**
  * 获取登录信息
@@ -41,7 +42,7 @@ router.get('/register', async (ctx, next) => {
   await ctx.render('register', getLoginInfo(ctx))
 })
 
-router.get('/setting', async (ctx, next) => {
+router.get('/setting', loginRedirect, async (ctx, next) => {
   // 这个render就是render的view/setting.ejs
   await ctx.render('setting', ctx.session.userInfo)
 })
