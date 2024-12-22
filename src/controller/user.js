@@ -2,13 +2,18 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-17 09:35:34
+ * @LastEditTime: 2024-12-22 20:34:17
  * @Description: user controller 业务逻辑的处理+返回格式
  * 建议是每个api对应的写一个controller的函数，这样的好处是分层全部都规矩化，流程化。
  * @FilePath: /weibo-koa/src/controller/user.js
  */
 
-const { getUserInfo, createUser, deleteUser } = require('../services/user')
+const {
+  getUserInfo,
+  createUser,
+  deleteUser,
+  updateUser,
+} = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const {
   loginFailInfo,
@@ -16,6 +21,7 @@ const {
   deleteUserFailInfo,
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
+  changeInfoFailInfo,
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/crypt')
 
@@ -40,7 +46,6 @@ const login = async (ctx, userName, password) => {
   return new SuccessModel()
 }
 
-// 注册
 /**
  * 注册
  * @param {string} userName 用户名
@@ -96,9 +101,41 @@ const deleteCurUser = async (userName) => {
   return new ErrorModel(deleteUserFailInfo)
 }
 
+/**
+ *  更新信息
+ */
+const changeInfo = async (ctx, { nickName, city, picture }) => {
+  const { userName } = ctx.session.userInfo
+
+  // 更新当前userName的一些信息
+  const res = await updateUser(
+    {
+      newNickName: nickName,
+      newCity: city,
+      newPicture: picture,
+    },
+    { userName }
+  )
+
+  if (res) {
+    // 执行成功 同步更新session
+    Object.assign(ctx.session.userInfo, {
+      nickName,
+      city,
+      picture,
+    })
+
+    // 返回
+    return new SuccessModel()
+  }
+  // 失败
+  return new ErrorModel(changeInfoFailInfo)
+}
+
 module.exports = {
   login,
   register,
   isExist,
   deleteCurUser,
+  changeInfo,
 }

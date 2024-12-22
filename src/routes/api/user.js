@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-12 22:24:40
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-16 21:44:22
+ * @LastEditTime: 2024-12-22 20:25:25
  * @Description: user API 路由
  * @FilePath: /weibo-koa/src/routes/api/user.js
  */
@@ -12,6 +12,7 @@ const {
   register,
   isExist,
   login,
+  changeInfo,
   deleteCurUser,
 } = require('../../controller/user')
 const userValidate = require('../../validator/user')
@@ -50,5 +51,16 @@ router.post('/delete', loginCheck, async (ctx, next) => {
     ctx.body = await deleteCurUser(userName)
   }
 })
+
+// 更新个人信息 昵称+城市+头像
+router.patch(
+  '/changeInfo',
+  loginCheck,
+  genValidator(userValidate),
+  async (ctx, next) => {
+    const { nickName, city, picture } = ctx.request.body
+    ctx.body = await changeInfo(ctx, { nickName, city, picture })
+  }
+)
 
 module.exports = router

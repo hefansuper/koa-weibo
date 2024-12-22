@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-16 21:56:27
+ * @LastEditTime: 2024-12-22 20:29:29
  * @Description: user service 数据处理+格式化
  * @FilePath: /weibo-koa/src/services/user.js
  */
@@ -27,7 +27,15 @@ const getUserInfo = async (userName, password) => {
 
   // 查询是通过模型来查询的。
   const result = await User.findOne({
-    attributes: ['id', 'nickName', 'nickName', 'gender', 'picture', 'city'],
+    attributes: [
+      'id',
+      'userName',
+      'nickName',
+      'gender',
+      'picture',
+      'city',
+      'password',
+    ],
     where: whereOpt,
   })
 
@@ -74,8 +82,45 @@ const deleteUser = async (userName) => {
   return result > 0
 }
 
+// 更新当前userName,password的一些信息
+const updateUser = async (
+  { newPassword, newNickName, newPicture, newCity },
+  { userName, password }
+) => {
+  // 拼接修改内容
+  const updateData = {}
+  if (newPassword) {
+    updateData.password = newPassword
+  }
+  if (newNickName) {
+    updateData.nickName = newNickName
+  }
+  if (newPicture) {
+    updateData.picture = newPicture
+  }
+  if (newCity) {
+    updateData.city = newCity
+  }
+
+  // 拼接查询条件
+  const whereData = {
+    userName,
+  }
+  if (password) {
+    whereData.password = password
+  }
+
+  // 执行修改
+  const result = await User.update(updateData, {
+    where: whereData,
+  })
+  // 返回的是影响的行数
+  return result[0] > 0
+}
+
 module.exports = {
   getUserInfo,
   createUser,
   deleteUser,
+  updateUser,
 }
