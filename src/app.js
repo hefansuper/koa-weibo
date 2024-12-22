@@ -16,6 +16,7 @@ const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 const index = require('./routes/index')
 const userViewRouter = require('./routes/view/user')
 const userAPIRouter = require('./routes/api/user')
+const utilsAPIRouter = require('./routes/api/utils')
 const errorViewRouter = require('./routes/view/error')
 
 // error handler
@@ -29,7 +30,7 @@ if (isProd) {
 onerror(app, onerrorConf)
 
 // middlewares 中间件的集合。
-// 解析post的入参及其数据。
+// 解析post的入参及其数据。仅仅用来解析application/json
 app.use(
   bodyparser({
     enableTypes: ['json', 'form', 'text'],
@@ -67,9 +68,9 @@ app.use(
 
 // routes
 // allowedMethods中间件   会在路由注册完成后，自动注册一个中间件，用来处理非定义的请求方式的请求然后返回对应的4xx错误。
-
 app.use(index.routes(), index.allowedMethods())
 // 接口的路由 api层
+app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 // 页面的路由 view层
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
