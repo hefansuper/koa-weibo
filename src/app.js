@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const app = new Koa()
+const path = require('path')
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
@@ -7,6 +8,7 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
+const koaStatic = require('koa-static')
 
 const { REDIS_CONF } = require('./conf/db')
 const { isProd } = require('./utils/env')
@@ -40,8 +42,12 @@ app.use(
 app.use(json())
 // 标准的日志处理 打印日志
 app.use(logger())
+
 // 静态中间件。
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(koaStatic(__dirname + '/public'))
+// 生成的图片
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')))
+
 // 模板引擎
 app.use(
   views(__dirname + '/views', {

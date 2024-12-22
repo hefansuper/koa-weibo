@@ -61,3 +61,5 @@ tsconfig.tsbuildinfo # TypeScript incremental builds
 
 
 dump.rdp
+
+uploadFiles
