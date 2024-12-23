@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-23 13:44:28
+ * @LastEditTime: 2024-12-23 15:07:09
  * @Description: user controller 业务逻辑的处理+返回格式
  * 建议是每个api对应的写一个controller的函数，这样的好处是分层全部都规矩化，流程化。
  * @FilePath: /weibo-koa/src/controller/user.js
@@ -159,6 +159,16 @@ const changePassword = async (userName, password, newPassword) => {
   return new ErrorModel(changePasswordFailInfo)
 }
 
+/**
+ * 退出登录，就是删除session，同时中间会同步删除redis。
+ * @param {*} ctx koa的xtx
+ */
+const logout = async (ctx) => {
+  delete ctx.session.userInfo
+
+  return new SuccessModel()
+}
+
 module.exports = {
   login,
   register,
@@ -166,4 +176,5 @@ module.exports = {
   deleteCurUser,
   changeInfo,
   changePassword,
+  logout,
 }

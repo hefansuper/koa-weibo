@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-12 22:24:40
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-23 13:47:04
+ * @LastEditTime: 2024-12-23 15:08:13
  * @Description: user API 路由
  * @FilePath: /weibo-koa/src/routes/api/user.js
  */
@@ -15,6 +15,7 @@ const {
   changeInfo,
   deleteCurUser,
   changePassword,
+  logout,
 } = require('../../controller/user')
 const userValidate = require('../../validator/user')
 const { genValidator } = require('../../middlewares/validator')
@@ -73,6 +74,16 @@ router.patch(
     const { userName } = ctx.session.userInfo
     const { password, newPassword } = ctx.request.body
     ctx.body = await changePassword(userName, password, newPassword)
+  }
+)
+
+// 退出登录
+router.post(
+  '/logout',
+  loginCheck,
+  genValidator(userValidate),
+  async (ctx, next) => {
+    ctx.body = await logout(ctx)
   }
 )
 
