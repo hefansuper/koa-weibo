@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-22 20:29:29
+ * @LastEditTime: 2024-12-23 13:42:52
  * @Description: user service 数据处理+格式化
  * @FilePath: /weibo-koa/src/services/user.js
  */
@@ -83,6 +83,7 @@ const deleteUser = async (userName) => {
 }
 
 // 更新当前userName,password的一些信息
+// 第一部分是覆盖的值，第二部分是索引的条件
 const updateUser = async (
   { newPassword, newNickName, newPicture, newCity },
   { userName, password }

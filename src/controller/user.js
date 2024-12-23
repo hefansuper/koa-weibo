@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-22 20:34:17
+ * @LastEditTime: 2024-12-23 13:44:28
  * @Description: user controller 业务逻辑的处理+返回格式
  * 建议是每个api对应的写一个controller的函数，这样的好处是分层全部都规矩化，流程化。
  * @FilePath: /weibo-koa/src/controller/user.js
@@ -22,6 +22,7 @@ const {
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
   changeInfoFailInfo,
+  changePasswordFailInfo,
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/crypt')
 
@@ -132,10 +133,37 @@ const changeInfo = async (ctx, { nickName, city, picture }) => {
   return new ErrorModel(changeInfoFailInfo)
 }
 
+/**
+ * 修改登录密码
+ * @param {string} userName
+ * @param {string} password
+ * @param {string} newPassword
+ */
+const changePassword = async (userName, password, newPassword) => {
+  // 更新当前userName的一些信息
+  const res = await updateUser(
+    {
+      newPassword: doCrypto(newPassword),
+    },
+    {
+      userName,
+      password: doCrypto(password),
+    }
+  )
+
+  if (res) {
+    // 成功
+    return new SuccessModel()
+  }
+  // 失败
+  return new ErrorModel(changePasswordFailInfo)
+}
+
 module.exports = {
   login,
   register,
   isExist,
   deleteCurUser,
   changeInfo,
+  changePassword,
 }
