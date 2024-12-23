@@ -78,13 +78,8 @@ router.patch(
 )
 
 // 退出登录
-router.post(
-  '/logout',
-  loginCheck,
-  genValidator(userValidate),
-  async (ctx, next) => {
-    ctx.body = await logout(ctx)
-  }
-)
+router.post('/logout', loginCheck, async (ctx, next) => {
+  ctx.body = await logout(ctx)
+})
 
 module.exports = router

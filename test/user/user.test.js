@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-16 21:04:08
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-23 15:42:43
+ * @LastEditTime: 2024-12-23 15:50:53
  * @Description: 用户部分的单元测试
  * @FilePath: /weibo-koa/test/user/user.test.js
  */
@@ -89,7 +89,36 @@ describe('user测试', () => {
     expect(response.body.errno).toBe(10004)
   })
 
-  // 8：delete --删除登录的用户，自己删除自己，应该成功
+  // 8： 更新个人信息
+  test('更新个人信息，应该成功', async () => {
+    const response = await server
+      .patch('/api/user/changeInfo')
+      .send({
+        nickName: '测试昵称',
+        city: '测试城市',
+        picture: '/test.png',
+      })
+      .set('cookie', COOKIE)
+
+    expect(response.status).toBe(200)
+    expect(response.body.errno).toBe(0)
+  })
+
+  // 9： 修改密码
+  test('修改密码，应该成功', async () => {
+    const response = await server
+      .patch('/api/user/changePassword')
+      .send({
+        password,
+        newPassword: `p_${Date.now()}`,
+      })
+      .set('cookie', COOKIE)
+
+    expect(response.status).toBe(200)
+    expect(response.body.errno).toBe(0)
+  })
+
+  // 10：delete --删除登录的用户，自己删除自己，应该成功
   test('删除前面登录的用户，应该成功', async () => {
     // 需要注意这个set('cookie', COOKIE)，因为需要登录态
     const response = await server.post('/api/user/delete').set('cookie', COOKIE)
@@ -98,7 +127,15 @@ describe('user测试', () => {
     expect(response.body.errno).toBe(0)
   })
 
-  // 9：再次查询用户，应该不存在
+  // 11：退出登录
+  test('退出登录，应该成功', async () => {
+    const response = await server.post('/api/user/logout').set('cookie', COOKIE)
+
+    expect(response.status).toBe(200)
+    expect(response.body.errno).toBe(0)
+  })
+
+  // 12：再次查询用户，应该不存在
   test('再次查询用户，应该不存在', async () => {
     const response = await server.post('/api/user/isExist').send(testUser)
 
