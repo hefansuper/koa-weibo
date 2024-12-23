@@ -1,3 +1,11 @@
+/*
+ * @Author: stephenHe
+ * @Date: 2024-12-22 18:50:05
+ * @LastEditors: stephenHe
+ * @LastEditTime: 2024-12-23 15:42:16
+ * @Description: utils工具api
+ * @FilePath: /weibo-koa/src/controller/utils.js
+ */
 const fse = require('fs-extra')
 const path = require('path')
 const { ErrorModel, SuccessModel } = require('../model/ResModel')
@@ -25,8 +33,6 @@ const saveFile = async ({ name, type, size, filePath }) => {
   const fileName = Date.now() + '.' + name // 防止重名
   const distFilePath = path.join(DIST_FOLDER_PATH, fileName) // 目的地
   await fse.move(filePath, distFilePath)
-
-  console.log(fileName, 'fileName')
 
   // 返回信息
   return new SuccessModel({

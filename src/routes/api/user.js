@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-12 22:24:40
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-23 15:08:13
+ * @LastEditTime: 2024-12-23 15:39:54
  * @Description: user API 路由
  * @FilePath: /weibo-koa/src/routes/api/user.js
  */
@@ -49,7 +49,7 @@ router.post('/isExist', async (ctx, next) => {
 // 删除当前登录的账号，并且仅仅是在进行单元测试的时候
 router.post('/delete', loginCheck, async (ctx, next) => {
   if (isTest) {
-    const { userName } = ctx.request.body
+    const { userName } = ctx.session.userInfo
     ctx.body = await deleteCurUser(userName)
   }
 })
