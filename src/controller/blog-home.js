@@ -2,10 +2,12 @@
  * @Author: stephenHe
  * @Date: 2024-12-24 14:25:11
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-24 14:36:50
+ * @LastEditTime: 2024-12-24 16:19:03
  * @Description: 博客首页的controller
  * @FilePath: /weibo-koa/src/controller/blog-home.js
  */
+
+const xss = require('xss')
 
 const { createBlog } = require('../services/blog-home')
 const { createBlogFailInfo } = require('../model/ErrorInfo')
@@ -19,7 +21,7 @@ const { SuccessModel, ErrorModel } = require('../model/ResModel')
  */
 const create = async ({ content, image, userId }) => {
   try {
-    const blog = await createBlog({ content, image, userId })
+    const blog = await createBlog({ content: xss(content), image, userId })
     return new SuccessModel(blog)
   } catch (ex) {
     console.error(ex.message, ex.stack)
