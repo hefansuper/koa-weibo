@@ -1,24 +1,27 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>EJS Welcome to <%= title %></p>
+<!--
+ * @Author: stephenHe
+ * @Date: 2024-12-04 23:04:19
+ * @LastEditors: stephenHe
+ * @LastEditTime: 2024-12-24 10:25:36
+ * @Description: 
+ * @FilePath: /weibo-koa/src/views/index.ejs
+-->
+<%- include('layout/header', { title: '微博 - 首页', isNav: true, list: true, isInputBlog: true })%>
 
-    <hr>
+<div class="container margin-top-20">
+    <div class="row">
+        <!-- 左侧 -->
+        <div class="col-8">
+            <!-- 输入框 -->
+            <%- include('widgets/input')%>
 
-    <%- include('widgets/user-info', {
-      isMe
-    })%>
+        </div> <!-- 左侧结束 -->
 
-    <hr>
+        <!-- 右侧 -->
+        <div class="col-4">
+            右侧
+        </div> <!-- 右侧结束 -->
+    </div>
+</div>
 
-    <%- include('widgets/blog-list', {
-      blogList
-    })%>
-
-  </body>
-</html>
+<%- include('layout/footer')%>

@@ -1,3 +1,11 @@
+/*
+ * @Author: stephenHe
+ * @Date: 2024-12-04 23:04:19
+ * @LastEditors: stephenHe
+ * @LastEditTime: 2024-12-24 10:35:34
+ * @Description: 入口文件
+ * @FilePath: /weibo-koa/src/app.js
+ */
 const Koa = require('koa')
 const app = new Koa()
 const path = require('path')
@@ -15,7 +23,7 @@ const { isProd } = require('./utils/env')
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 
 // 路由
-const index = require('./routes/index')
+const blogViewRouter = require('./routes/view/blog')
 const userViewRouter = require('./routes/view/user')
 const userAPIRouter = require('./routes/api/user')
 const utilsAPIRouter = require('./routes/api/utils')
@@ -74,12 +82,15 @@ app.use(
 
 // routes
 // allowedMethods中间件   会在路由注册完成后，自动注册一个中间件，用来处理非定义的请求方式的请求然后返回对应的4xx错误。
-app.use(index.routes(), index.allowedMethods())
+
 // 接口的路由 api层
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+
 // 页面的路由 view层
+app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 404 路由注册到最后面
 
 // error-handling
