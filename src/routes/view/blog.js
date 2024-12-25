@@ -2,12 +2,14 @@
  * @Author: stephenHe
  * @Date: 2024-12-24 10:31:21
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-25 17:25:00
+ * @LastEditTime: 2024-12-25 22:02:49
  * @Description: blog页面的的路由，render出index.ejs
  * @FilePath: /weibo-koa/src/routes/view/blog.js
  */
 const router = require('koa-router')()
 const { loginRedirect } = require('../../middlewares/loginChecks')
+const { getProfileBlogList } = require('../../controller/blog-profile')
+const { isExist } = require('../../controller/user')
 
 // 定义login路由
 router.get('/', loginRedirect, async (ctx, next) => {
@@ -16,13 +18,52 @@ router.get('/', loginRedirect, async (ctx, next) => {
 })
 
 // 不带用户名的时候就是自己的主页，获取session并调到带用户名的页面。
-// router.get('/profile', loginRedirect, async (ctx, next) => {
-//   const { userName } = ctx.session.userInfo
-//   ctx.redirect(`/profile/${userName}`)
-// })
+router.get('/profile', loginRedirect, async (ctx, next) => {
+  const { userName } = ctx.session.userInfo
+  ctx.redirect(`/profile/${userName}`)
+})
 
 router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
-  await ctx.render(`profile`, {})
+  const { userName: curUserName } = ctx.params
+
+  // 1：查询第一页的博客信息
+  const result = await getProfileBlogList(curUserName, 0)
+  const { isEmpty, blogList, pageSize, pageIndex, count } = result.data
+
+  // 2: 查询当前人的信息。
+  let curUserInfo
+  // 已登录用户的信息
+  const myUserInfo = ctx.session.userInfo
+  const myUserName = myUserInfo.userName
+  // 查询人是不是当前登录的人
+  const isMe = myUserName === curUserName
+  if (isMe) {
+    // 是当前登录用户
+    curUserInfo = myUserInfo
+  } else {
+    // 不是当前登录用户
+    const existResult = await isExist(curUserName)
+    if (existResult.errno !== 0) {
+      // 用户名不存在
+      return
+    }
+    // 用户名存在
+    curUserInfo = existResult.data
+  }
+
+  await ctx.render(`profile`, {
+    blogData: {
+      isEmpty,
+      blogList,
+      pageSize,
+      pageIndex,
+      count,
+    },
+    userData: {
+      userInfo: curUserInfo,
+      isMe,
+    },
+  })
 })
 
 module.exports = router
