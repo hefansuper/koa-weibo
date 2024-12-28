@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-24 10:31:21
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-27 17:27:10
+ * @LastEditTime: 2024-12-28 15:31:16
  * @Description: blog页面的的路由，render出index.ejs
  * @FilePath: /weibo-koa/src/routes/view/blog.js
  */
@@ -11,6 +11,7 @@ const { loginRedirect } = require('../../middlewares/loginChecks')
 const { getProfileBlogList } = require('../../controller/blog-profile')
 const { getSquareBlogList } = require('../../controller/blog-square')
 const { isExist } = require('../../controller/user')
+const { getFans } = require('../../controller/user-relation')
 
 // 定义login路由
 router.get('/', loginRedirect, async (ctx, next) => {
@@ -52,6 +53,10 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     curUserInfo = existResult.data
   }
 
+  // 3: 获取当前用户的粉丝
+  const fansResult = await getFans(curUserInfo.id)
+  const { count: fansCount, fansList } = fansResult.data
+
   await ctx.render(`profile`, {
     blogData: {
       isEmpty,
@@ -63,6 +68,10 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     userData: {
       userInfo: curUserInfo,
       isMe,
+      fansData: {
+        count: fansCount,
+        list: fansList,
+      },
     },
   })
 })

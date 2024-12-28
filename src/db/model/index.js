@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-28 13:11:09
+ * @LastEditTime: 2024-12-28 15:22:52
  * @Description:数据模型入口文件
  * @FilePath: /weibo-koa/src/db/model/index.js
  */
@@ -20,6 +20,7 @@ Blog.belongsTo(User, {
 
 // 用户关系表中的userId和followerId都关联到User表中的userId,
 // 需要注意的是这个地方的都取了一个别名，否则Sequelize无法区分对应的关联关系。
+// 连表查询的时候也要加上这个as对应的值。
 UserRelation.belongsTo(User, { foreignKey: 'userId', as: 'user' })
 UserRelation.belongsTo(User, { foreignKey: 'followerId', as: 'follower' })
 
