@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-26 10:51:23
+ * @LastEditTime: 2024-12-28 10:10:37
  * @Description: 入口文件
  * @FilePath: /weibo-koa/src/app.js
  */
@@ -28,6 +28,7 @@ const userViewRouter = require('./routes/view/user')
 const userAPIRouter = require('./routes/api/user')
 const blogHomeAPIRouter = require('./routes/api/blog-home')
 const blogProfileAPIRouter = require('./routes/api/blog-profile')
+const blogSquareAPIRouter = require('./routes/api/blog-square')
 const utilsAPIRouter = require('./routes/api/utils')
 const errorViewRouter = require('./routes/view/error')
 
@@ -90,6 +91,7 @@ app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(blogHomeAPIRouter.routes(), blogHomeAPIRouter.allowedMethods())
 app.use(blogProfileAPIRouter.routes(), blogProfileAPIRouter.allowedMethods())
+app.use(blogSquareAPIRouter.routes(), blogSquareAPIRouter.allowedMethods())
 
 // 页面的路由 view层
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
