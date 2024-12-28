@@ -1,0 +1,22 @@
+<!--
+ * @Author: stephenHe
+ * @Date: 2024-12-28 14:49:18
+ * @LastEditors: stephenHe
+ * @LastEditTime: 2024-12-28 14:49:27
+ * @Description: 粉丝组件
+ * @FilePath: /weibo-koa/src/views/widgets/fans.ejs
+-->
+<div class="user-list right-item">
+    <p class="title bold">
+        <i class="fa fa-users"></i>
+        粉丝（<%= count%>）
+    </p>
+    <div class="user-list clear-fix">
+        <% userList.forEach(user => { %>
+            <a href="/profile/<%= user.userName%>" class="user-item float-left">
+                <img src="<%= user.picture%>"/>
+                <span><%= user.nickName%></span>
+            </a>
+        <% }) %>
+    </div>
+</div>

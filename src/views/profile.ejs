@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-25 11:10:07
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-25 11:10:17
+ * @LastEditTime: 2024-12-28 14:52:51
  * @Description: profile
  * @FilePath: /weibo-koa/src/views/profile.ejs
 -->
@@ -49,6 +49,12 @@
                     // atCount: userData.atCount
                 });%>
             </div>
+
+            <!-- 粉丝 -->
+            <%- include('widgets/fans', {
+                count: 0,
+                userList: []
+            })%>
 
         </div> <!-- 右侧结束 -->
     </div>
