@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-24 10:31:21
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-28 15:31:16
+ * @LastEditTime: 2024-12-30 16:23:50
  * @Description: blog页面的的路由，render出index.ejs
  * @FilePath: /weibo-koa/src/routes/view/blog.js
  */
@@ -57,6 +57,12 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   const fansResult = await getFans(curUserInfo.id)
   const { count: fansCount, fansList } = fansResult.data
 
+  // 4：判断是否关注，
+  // 当前用户是否在粉丝列表中。
+  const amIFollowed = fansList.some((item) => {
+    return item.userName === myUserName
+  })
+
   await ctx.render(`profile`, {
     blogData: {
       isEmpty,
@@ -68,6 +74,7 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     userData: {
       userInfo: curUserInfo,
       isMe,
+      amIFollowed,
       fansData: {
         count: fansCount,
         list: fansList,
