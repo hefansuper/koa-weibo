@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-26 10:43:47
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-30 16:48:00
+ * @LastEditTime: 2024-12-30 21:18:45
  * @Description:blog-profile 的 api
  * @FilePath: /weibo-koa/src/routes/api/blog-profile.js
  */
@@ -10,7 +10,11 @@
 const router = require('koa-router')()
 const { getBlogListStr } = require('../../utils/blog')
 const { loginCheck } = require('../../middlewares/loginChecks')
-const { getProfileBlogList, follow } = require('../../controller/blog-profile')
+const {
+  follow,
+  unFollow,
+  getProfileBlogList,
+} = require('../../controller/blog-profile')
 
 // 构建user的前缀
 router.prefix('/api/profile')
@@ -31,6 +35,13 @@ router.post('/follow', async (ctx, next) => {
   const { id: myUserId } = ctx.session.userInfo
   const { userId: followId } = ctx.request.body
   ctx.body = await follow(myUserId, followId)
+})
+
+// 取消关注, 前端传入的是取消关注的人的id。
+router.post('/unFollow', async (ctx, next) => {
+  const { id: myUserId } = ctx.session.userInfo
+  const { userId: unFollowId } = ctx.request.body
+  ctx.body = await unFollow(myUserId, unFollowId)
 })
 
 module.exports = router

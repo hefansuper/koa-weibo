@@ -69,7 +69,25 @@ const addFollower = async (myUserId, followId) => {
   return result.dataValues
 }
 
+/**
+ *  取消关注
+ * @param {number} myUserId  当前人的userId
+ * @param {number} unFollowId 取消关注人的userId
+ */
+const deleteFollower = async (myUserId, followId) => {
+  const result = await UserRelation.destroy({
+    where: {
+      userId: myUserId,
+      followerId: followId,
+    },
+  })
+
+  // result 删除的行数
+  return result > 0
+}
+
 module.exports = {
-  getBlogListByUser,
   addFollower,
+  deleteFollower,
+  getBlogListByUser,
 }

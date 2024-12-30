@@ -2,14 +2,21 @@
  * @Author: stephenHe
  * @Date: 2024-12-25 21:01:06
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-30 16:46:21
+ * @LastEditTime: 2024-12-30 21:24:39
  * @Description: 个人博客的controller
  * @FilePath: /weibo-koa/src/controller/blog-profile.js
  */
 const { PAGE_SIZE } = require('../conf/constant')
 const { SuccessModel } = require('../model/ResModel')
-const { addFollowerFailInfo } = require('../model/ErrorInfo')
-const { getBlogListByUser, addFollower } = require('../services/blog-profile')
+const {
+  addFollowerFailInfo,
+  deleteFollowerFailInfo,
+} = require('../model/ErrorInfo')
+const {
+  addFollower,
+  deleteFollower,
+  getBlogListByUser,
+} = require('../services/blog-profile')
 
 /**
  * 获取个人微博主页的博客信息，根据userName
@@ -50,4 +57,17 @@ const follow = async (myUserId, followId) => {
   }
 }
 
-module.exports = { getProfileBlogList, follow }
+/**
+ *  取消关注
+ * @param {number} myUserId  当前人的userId
+ * @param {number} followId 取消关注人的userId
+ */
+const unFollow = async (myUserId, unFollowId) => {
+  const result = await deleteFollower(myUserId, unFollowId)
+  if (result) {
+    return new SuccessModel(result)
+  }
+  return new ErrorModel(deleteFollowerFailInfo)
+}
+
+module.exports = { getProfileBlogList, follow, unFollow }
