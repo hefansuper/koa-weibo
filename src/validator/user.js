@@ -52,7 +52,7 @@ const SCHEMA = {
  */
 function userValidate(data = {}) {
   const validateRes = validate(SCHEMA, data)
-  console.log(validateRes)
+  console.info(validateRes)
   return validateRes
 }
 

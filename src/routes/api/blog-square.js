@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-28 10:00:46
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-28 10:12:47
+ * @LastEditTime: 2024-12-30 21:15:44
  * @Description: 微博广场的api
  * @FilePath: /weibo-koa/src/routes/api/blog-square.js
  */
@@ -19,8 +19,6 @@ router.prefix('/api/square')
 router.get('/loadMore/:pageIndex', loginCheck, async (ctx, next) => {
   let { pageIndex } = ctx.params
   const result = await getSquareBlogList(pageIndex)
-
-  console.log(result, 'result')
 
   // 渲染为 html 字符串---ejs
   result.data.blogListTpl = getBlogListStr(result.data.blogList)

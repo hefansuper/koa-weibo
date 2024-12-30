@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-28 14:58:23
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-30 17:42:11
+ * @LastEditTime: 2024-12-30 21:15:56
  * @Description:
  * @FilePath: /weibo-koa/src/services/user-relation.js
  */
@@ -17,7 +17,6 @@ const { UserRelation, User } = require('../db/model/index')
  * @param {number} followerId 被关注人的 id
  */
 const getUsersByFollower = async (followerId) => {
-  console.log(followerId, 'followerId')
   const result = await UserRelation.findAndCountAll({
     order: [
       ['createdAt', 'desc'], // 按创建时间倒序排列
@@ -48,7 +47,6 @@ const getUsersByFollower = async (followerId) => {
       ...item.user.dataValues,
     }
   })
-  console.log(userList, 'userList')
   userList = formatUser(userList)
 
   return {
