@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-24 10:31:21
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-30 21:15:49
+ * @LastEditTime: 2024-12-30 22:53:14
  * @Description: blog页面的的路由，render出index.ejs
  * @FilePath: /weibo-koa/src/routes/view/blog.js
  */
@@ -11,7 +11,7 @@ const { loginRedirect } = require('../../middlewares/loginChecks')
 const { getProfileBlogList } = require('../../controller/blog-profile')
 const { getSquareBlogList } = require('../../controller/blog-square')
 const { isExist } = require('../../controller/user')
-const { getFans } = require('../../controller/user-relation')
+const { getFans, getFollowers } = require('../../controller/user-relation')
 
 // 定义login路由
 router.get('/', loginRedirect, async (ctx, next) => {
@@ -57,13 +57,19 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   const fansResult = await getFans(curUserInfo.id)
   const { count: fansCount, fansList } = fansResult.data
 
+  console.log(fansList, 'fansList')
+
   // 4：判断是否关注，
   // 登录的用户是否在当前用户的粉丝列表中。
   const amIFollowed = fansList.some((item) => {
     return item.userId === myUserInfo.id
   })
 
-  // console.log(fansList, 'fansList')
+  // 5：获取当前用户的关注的人列表
+  const followersResult = await getFollowers(curUserInfo.id)
+  const { count: followersCount, followersList } = followersResult.data
+
+  // console.log(followersList, 'followersList')
 
   await ctx.render(`profile`, {
     blogData: {
@@ -80,6 +86,10 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
       fansData: {
         count: fansCount,
         list: fansList,
+      },
+      followersData: {
+        count: followersCount,
+        list: followersList,
       },
     },
   })
