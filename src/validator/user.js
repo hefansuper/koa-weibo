@@ -51,7 +51,9 @@ const SCHEMA = {
  * @param {Object} data 用户数据
  */
 function userValidate(data = {}) {
-  return validate(SCHEMA, data)
+  const validateRes = validate(SCHEMA, data)
+  console.log(validateRes)
+  return validateRes
 }
 
 module.exports = userValidate

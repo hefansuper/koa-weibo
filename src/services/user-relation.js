@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-28 14:58:23
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-28 15:29:52
+ * @LastEditTime: 2024-12-30 17:42:11
  * @Description:
  * @FilePath: /weibo-koa/src/services/user-relation.js
  */
@@ -12,11 +12,12 @@ const { UserRelation, User } = require('../db/model/index')
 
 /**
  * 获取关注该用户的用户列表，即该用户的粉丝
- * 查询用户关系表中哪一行的followerId是当前传入的userId
+ * 查询用户关系表中哪一行的followerId是当前传入的userId,对应的userid就是followerid的粉丝
  * a关注了b，a就是关注人，b就是被关注人
  * @param {number} followerId 被关注人的 id
  */
 const getUsersByFollower = async (followerId) => {
+  console.log(followerId, 'followerId')
   const result = await UserRelation.findAndCountAll({
     order: [
       ['createdAt', 'desc'], // 按创建时间倒序排列
@@ -28,8 +29,9 @@ const getUsersByFollower = async (followerId) => {
     include: [
       {
         model: User, // 查询的表的model
-        // 加载关注人的信息（即 `followerId` 外键）
-        as: 'follower',
+        // 加载关注人的信息（即 `userId` 外键）
+        // 查询当前的人的粉丝，就是被关注的人是传入的人，在链表查询userId的信息
+        as: 'user',
         attributes: ['id', 'userName', 'nickName', 'picture'], // 需要查询出的key名
       },
     ],
@@ -40,6 +42,13 @@ const getUsersByFollower = async (followerId) => {
 
   // 格式化
   let userList = result.rows.map((row) => row.dataValues)
+  userList = userList.map((item) => {
+    return {
+      ...item,
+      ...item.user.dataValues,
+    }
+  })
+  console.log(userList, 'userList')
   userList = formatUser(userList)
 
   return {

@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-24 10:31:21
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-30 17:01:16
+ * @LastEditTime: 2024-12-30 17:09:49
  * @Description: blog页面的的路由，render出index.ejs
  * @FilePath: /weibo-koa/src/routes/view/blog.js
  */
@@ -62,6 +62,8 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   const amIFollowed = fansList.some((item) => {
     return item.userId === myUserInfo.id
   })
+
+  console.log(fansList, 'fansList')
 
   await ctx.render(`profile`, {
     blogData: {
