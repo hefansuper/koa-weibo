@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-26 10:43:47
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-26 10:48:12
+ * @LastEditTime: 2024-12-30 16:48:00
  * @Description:blog-profile 的 api
  * @FilePath: /weibo-koa/src/routes/api/blog-profile.js
  */
@@ -10,7 +10,7 @@
 const router = require('koa-router')()
 const { getBlogListStr } = require('../../utils/blog')
 const { loginCheck } = require('../../middlewares/loginChecks')
-const { getProfileBlogList } = require('../../controller/blog-profile')
+const { getProfileBlogList, follow } = require('../../controller/blog-profile')
 
 // 构建user的前缀
 router.prefix('/api/profile')
@@ -24,6 +24,13 @@ router.get('/loadMore/:userName/:pageIndex', loginCheck, async (ctx, next) => {
   result.data.blogListTpl = getBlogListStr(result.data.blogList)
 
   ctx.body = result
+})
+
+// 关注, 前端传入的是关注的人的id。
+router.post('/follow', async (ctx, next) => {
+  const { id: myUserId } = ctx.session.userInfo
+  const { userId: followId } = ctx.request.body
+  ctx.body = await follow(myUserId, followId)
 })
 
 module.exports = router

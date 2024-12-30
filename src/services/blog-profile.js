@@ -1,4 +1,4 @@
-const { Blog, User } = require('../db/model/index')
+const { Blog, User, UserRelation } = require('../db/model/index')
 const { formatUser, formatBlog } = require('./_format')
 
 /**
@@ -55,6 +55,21 @@ const getBlogListByUser = async ({
   }
 }
 
+/**
+ *  关注
+ * @param {number} myUserId  当前人的userId
+ * @param {number} followId 关注人的userId
+ */
+const addFollower = async (myUserId, followId) => {
+  const result = await UserRelation.create({
+    userId: myUserId,
+    followerId: followId,
+  })
+
+  return result.dataValues
+}
+
 module.exports = {
   getBlogListByUser,
+  addFollower,
 }
