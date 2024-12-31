@@ -7,7 +7,7 @@
  * @FilePath: /weibo-koa/src/controller/blog-profile.js
  */
 const { PAGE_SIZE } = require('../conf/constant')
-const { SuccessModel } = require('../model/ResModel')
+const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const {
   addFollowerFailInfo,
   deleteFollowerFailInfo,
