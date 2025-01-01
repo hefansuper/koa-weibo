@@ -2,13 +2,14 @@
  * @Author: stephenHe
  * @Date: 2024-12-04 23:04:19
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-23 13:42:52
+ * @LastEditTime: 2025-01-01 16:52:00
  * @Description: user service 数据处理+格式化
  * @FilePath: /weibo-koa/src/services/user.js
  */
 
 const User = require('../db/model/User')
 const { formatUser } = require('./_format')
+const { addFollower } = require('./blog-profile')
 
 /**
  * 获取用户的信息
@@ -64,6 +65,9 @@ async function createUser({ userName, password, gender = 3, nickName }) {
     gender: 3,
     nickName: nickName ? nickName : userName,
   })
+
+  // 自己关注自己（为了方便首页获取数据）
+  addFollower(data.id, data.id)
 
   return result.dataValues
 }

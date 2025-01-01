@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-24 10:31:21
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-30 22:53:14
+ * @LastEditTime: 2024-12-31 17:59:14
  * @Description: blog页面的的路由，render出index.ejs
  * @FilePath: /weibo-koa/src/routes/view/blog.js
  */
@@ -12,11 +12,46 @@ const { getProfileBlogList } = require('../../controller/blog-profile')
 const { getSquareBlogList } = require('../../controller/blog-square')
 const { isExist } = require('../../controller/user')
 const { getFans, getFollowers } = require('../../controller/user-relation')
+const { getHomeBlogList } = require('../../controller/blog-home')
 
 // 定义login路由
 router.get('/', loginRedirect, async (ctx, next) => {
+  const userInfo = ctx.session.userInfo
+  const { id: userId } = userInfo
+
+  // 获取第一页数据
+  const result = await getHomeBlogList(userId)
+  const { isEmpty, blogList, pageSize, pageIndex, count } = result.data
+
+  // 获取粉丝
+  const fansResult = await getFans(userId)
+  const { count: fansCount, fansList } = fansResult.data
+
+  // 获取关注人列表
+  const followersResult = await getFollowers(userId)
+  const { count: followersCount, followersList } = followersResult.data
+
   // 这个render就是render的view/index.ejs
-  await ctx.render('index', {})
+  await ctx.render('index', {
+    userData: {
+      userInfo,
+      fansData: {
+        count: fansCount,
+        list: fansList,
+      },
+      followersData: {
+        count: followersCount,
+        list: followersList,
+      },
+    },
+    blogData: {
+      isEmpty,
+      blogList,
+      pageSize,
+      pageIndex,
+      count,
+    },
+  })
 })
 
 // 不带用户名的时候就是自己的主页，获取session并调到带用户名的页面。

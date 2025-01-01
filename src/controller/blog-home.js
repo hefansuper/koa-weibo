@@ -2,14 +2,15 @@
  * @Author: stephenHe
  * @Date: 2024-12-24 14:25:11
  * @LastEditors: stephenHe
- * @LastEditTime: 2024-12-24 16:19:03
+ * @LastEditTime: 2024-12-31 17:42:36
  * @Description: 博客首页的controller
  * @FilePath: /weibo-koa/src/controller/blog-home.js
  */
 
 const xss = require('xss')
 
-const { createBlog } = require('../services/blog-home')
+const { PAGE_SIZE } = require('../conf/constant')
+const { createBlog, getFollowersBlogList } = require('../services/blog-home')
 const { createBlogFailInfo } = require('../model/ErrorInfo')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 
@@ -29,6 +30,30 @@ const create = async ({ content, image, userId }) => {
   }
 }
 
+/**
+ * 获取首页微博列表
+ * @param {number} userId userId
+ * @param {number} pageIndex page index
+ */
+async function getHomeBlogList(userId, pageIndex = 0) {
+  const result = await getFollowersBlogList({
+    userId,
+    pageIndex,
+    pageSize: PAGE_SIZE,
+  })
+  const { count, blogList } = result
+
+  // 返回
+  return new SuccessModel({
+    isEmpty: blogList.length === 0,
+    blogList,
+    pageSize: PAGE_SIZE,
+    pageIndex,
+    count,
+  })
+}
+
 module.exports = {
   create,
+  getHomeBlogList,
 }
