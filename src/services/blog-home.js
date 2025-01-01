@@ -2,7 +2,7 @@
  * @Author: stephenHe
  * @Date: 2024-12-24 14:30:35
  * @LastEditors: stephenHe
- * @LastEditTime: 2025-01-01 16:45:56
+ * @LastEditTime: 2025-01-01 17:06:01
  * @Description: blog-home的services
  * @FilePath: /weibo-koa/src/services/blog-home.js
  */
@@ -49,6 +49,9 @@ const getFollowersBlogList = async ({
         model: User,
         attributes: ['userName', 'nickName', 'picture'],
       },
+      // 这一部分将 blogs 表和 userRelations 表通过 blog.userId = userRelation.followerId 进行 内连接。这是 INNER JOIN，
+      // 只有当 userRelations 表中有符合条件的数据时，才会返回对应的 blog 数据。
+      // --- 只会返回UserRelation中followerId 等于 userId的博客信息，这样就巧妙的完成了获取所有关注人的微博的查询条件。
       {
         model: UserRelation,
         attributes: ['userId', 'followerId'],
